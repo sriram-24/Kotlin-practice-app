@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -47,6 +48,29 @@ class SecondPageActivity : AppCompatActivity() {
 //      permisson implementation
         requestPermission()
 
+//        Alert Dialog implementation
+        val foodItems = arrayOf("Cheese","olives","tomatoes")
+        val addMultiselectDialog =
+            AlertDialog.Builder(this)
+                .setTitle("Select toppings")
+                .setMultiChoiceItems(foodItems, booleanArrayOf(false,false,false)){ _,i,isChecked ->
+                    if (isChecked){
+                        Toast.makeText(this, "You selected ${foodItems[i]}",Toast.LENGTH_LONG).show()
+                    }
+                }
+                .setPositiveButton("ok"){_,_->
+                    Toast.makeText(this,"selection complete",Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("cancel"){_,_->
+                    Toast.makeText(this,"Selection canceled",Toast.LENGTH_SHORT).show()
+                }
+                .create()
+
+//        Listener for alert dialog
+        val showDialogButton = findViewById<Button>(R.id.ButtonShowDialog);
+        showDialogButton.setOnClickListener(){
+            addMultiselectDialog.show();
+        }
     }
 
     private fun hasWriteExternalStoragePermission() =
